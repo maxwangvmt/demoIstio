@@ -1,0 +1,81 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: turbo 
+---
+kind: ServiceAccount
+metadata:
+  name: turbo-user
+  namespace: turbo
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1   
+metadata:
+  name: turbo-all-binding
+  namespace: turbo
+subjects:
+- kind: ServiceAccount
+  name: turbo-user
+  namespace: turbo
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: rbac.authorization.k8s.io  
+---
+# The configuration of communication to the OpsMgr server
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: turbo-config-songbin
+  namespace: turbo
+data:
+  turbo.config: |-
+    {
+        "communicationConfig": {
+            "serverMeta": {
+                "version": "6.2.0-SNAPSHOT",
+                "turboServer": "https://localhost"
+            },
+            "restAPIConfig": {
+                "opsManagerUserName": "administrator",
+                "opsManagerPassword": "xxx"
+            }
+        }
+    }
+---    
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: kubeturbo-demo
+  namespace: turbo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kubeturbo-songbin
+  template:
+    metadata:
+      annotations:
+        kubeturbo.io/monitored: "false"
+        sidecar.istio.io/inject: "false"
+      labels:
+        app: kubeturbo-songbin
+    spec:
+      containers:
+      - args:
+        - --turboconfig=/etc/kubeturbo/turbo.config
+        - --v=2
+        image: vmturbo/kubeturbo:redhat-6.1dev
+        imagePullPolicy: Always
+        name: kubeturbo
+        volumeMounts:
+        - mountPath: /etc/kubeturbo
+          name: turbo-config
+          readOnly: true
+      serviceAccount: turbo-user
+      serviceAccountName: turbo-user
+      volumes:
+      - configMap:
+          name: turbo-config-songbin
+        name: turbo-config
