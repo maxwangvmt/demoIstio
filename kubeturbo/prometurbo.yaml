@@ -1,0 +1,68 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometurbo-config-songbin
+data:
+  turbo.config: |-
+    {
+        "communicationConfig": {
+            "serverMeta": {
+                "version": "6.2.0-SNAPSHOT",
+                "turboServer": "https://1.1.1.1:8080"
+            },
+            "restAPIConfig": {
+                "opsManagerUserName": "administrator",
+                "opsManagerPassword": "xxx"
+            }
+        },
+        "targetConfig": {
+            "targetAddress":"prom-proud_water",
+            "scope":"proud_water"
+        }
+    }
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: prometurbo-songbin
+  namespace: turbo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometurbo-songbin
+  template:
+    metadata:
+      annotations:
+        kubeturbo.io/monitored: "false"
+        sidecar.istio.io/inject: "false"
+      labels:
+        app: prometurbo-songbin
+    spec:
+      containers:
+      - args:
+        - --v=4
+        image: docker.io/beekman9527/prometurbo:6.2dev
+        name: prometurbo
+        volumeMounts:
+        - mountPath: /etc/prometurbo
+          name: prometurbo-config
+          readOnly: true
+        - mountPath: /var/log
+          name: varlog
+      - args:
+        - --promUrl=http://prometheus.istio-system:9090
+        - --v=3
+        - --logtostderr
+        image: docker.io/beekman9527/appmetric:6.2dev-pt
+        name: appmetric
+        ports:
+        - containerPort: 8081
+      serviceAccount: turbo-user
+      volumes:
+      - configMap:
+          name: prometurbo-config-songbin
+        name: prometurbo-config
+      - emptyDir: {}
+        name: varlog
