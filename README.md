@@ -54,4 +54,10 @@ kubectl create -f injected.image.yaml
 kubectl create -f client.image.yaml
 ```
 
+#### Step 5 (Optional) Visualization in Grafana
+To visualize service response time and request-per-second, the [Grafana](https://github.com/grafana/grafana/) addon should be installed for Istio.
+
+Login to Grafana UI, and import the dashboard from `demoIstio/istio/svcMonitor.grafana.json`
+
+
 
