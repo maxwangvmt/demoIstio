@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: image-client
+  namespace: default
+  labels:
+    purpose: "generate-http-load"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "image-client"
+  template:
+    metadata:
+      annotations:
+        kubeturbo.io/purpose: "test-istio"
+      labels:
+        app: "image-client"
+    spec:
+      serviceAccount: default
+      containers:
+      - name: webclient
+        image: beekman9527/webclient:v1
+        imagePullPolicy: Always
+        args:
+        - --v=3
+        - --logtostderr
+        - --threadNum=6
+        - --target=http://image.default:80/img/1
+        - --rps=3
