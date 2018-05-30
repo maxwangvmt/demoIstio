@@ -1,6 +1,10 @@
 # demoIstio
 Demo to get RPS and latency from Istio for applications
 
+<div>
+<img width="750" alt="grafana" src="https://user-images.githubusercontent.com/27221807/40750040-f3956832-6433-11e8-9d00-0857f69a8037.png">
+</div>
+
 ## Prerequisites
 * Kubernetes 1.7.3 +
 * Istio 0.3 + (with Prometheus addon)
