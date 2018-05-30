@@ -2,7 +2,7 @@
 Demo to get RPS and latency from Istio for applications
 
 <div>
-<img width="750" alt="grafana" src="https://user-images.githubusercontent.com/27221807/40750040-f3956832-6433-11e8-9d00-0857f69a8037.png">
+<img width="800" alt="grafana2" src="https://user-images.githubusercontent.com/27221807/40750280-cac3c1e6-6434-11e8-998e-c0b9d0982085.png">
 </div>
 
 ## Prerequisites
