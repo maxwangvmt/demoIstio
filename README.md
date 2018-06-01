@@ -34,7 +34,7 @@ kubectl create -f prometurbo.yaml
 ```
 
 
-#### Step 3 Deploy Music application and its client
+#### Step3 Deploy Music application and its client
 The music application is a simulated by [a cpu-intensive web serivce](https://github.com/songbinliu/webApp).
 The [client](https://github.com/songbinliu/webclient) is a multi-threaded golang http client: each request to a specific url will trigger the server to do a certain amount calculation.
 
@@ -46,12 +46,12 @@ kubectl create -f injected.music.yaml
 kubectl create -f client.music.yaml
 ```
 
-#### Step 4 Deploy Image application and its client
+#### Step4 Deploy Image application and its client
  
 The [image application](https://github.com/songbinliu/inceptionServer) is Tensorflow-based image category service.
 The [client](https://github.com/songbinliu/webclient) is a multi-threaded golang http client: each request to a specific url will trigger an image prediction action.
 
-**Note**: The Response time of image service may go up to 4 seconds if the image pod is running too long(more than 2 days). Reset the image pod by deleting the image Pod before the demo. 
+**Note**: The Response time of image service may go up to 4 seconds if the image pod is running too long(more than 2 days). Reset the image pod by killing the image Pod before the demo. 
 
 To deploy the application and the client:
 ```bash
@@ -61,7 +61,7 @@ kubectl create -f injected.image.yaml
 kubectl create -f client.image.yaml
 ```
 
-#### Step 5 (Optional) Visualization in Grafana
+#### Step5 (Optional) Visualization in Grafana
 To visualize service response time and request-per-second, the [Grafana](https://github.com/grafana/grafana/) addon should be installed for Istio.
 
 Login to Grafana UI, and import the dashboard from `demoIstio/istio/svcMonitor.grafana.json`
