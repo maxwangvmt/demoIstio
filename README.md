@@ -47,8 +47,11 @@ kubectl create -f client.music.yaml
 ```
 
 #### Step 4 Deploy Image application and its client
+ 
 The [image application](https://github.com/songbinliu/inceptionServer) is Tensorflow-based image category service.
 The [client](https://github.com/songbinliu/webclient) is a multi-threaded golang http client: each request to a specific url will trigger an image prediction action.
+
+**Note**: The Response time of image service may go up to 4 seconds if the image pod is running too long(more than 2 days). Reset the image pod by deleting the image Pod before the demo. 
 
 To deploy the application and the client:
 ```bash
