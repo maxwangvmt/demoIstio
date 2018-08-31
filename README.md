@@ -14,7 +14,7 @@ Demo to get RPS and latency from Istio for applications
 ## Deploy the demo in 4 steps
 
 #### Step1 Deploy necessary Istio metrics
-The Istio metrics are to generate request count and latency for pods and services (see an example [here](https://istio.io/docs/tasks/telemetry/tcp-metrics/)).
+The Istio metrics are to generate request count and latency for pods and services (see an example [here](https://istio.io/docs/tasks/telemetry/tcp-metrics/) and see the attribute list [here](https://istio.io/docs/reference/config/policy-and-telemetry/attribute-vocabulary/)).
 The [script](https://github.com/turbonomic/prometurbo/tree/master/appmetric/scripts/istio) to creat them in project [Prometurbo/appmetric](https://github.com/turbonomic/prometurbo).
 
 The scipt is also copied to this project, so the metrics can be created via:
